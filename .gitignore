@@ -1,0 +1,8 @@
+bin/
+include/
+lib/
+pyvenv.cfg
+.DS_Store
+test_api.py
+tasks.csv
+__pycache__
