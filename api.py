@@ -5,10 +5,10 @@ app = Flask(__name__)
 api = TodoListAPI()
 
 
-@app.route("/", methods=["GET"])
-def index():
+@app.route("/todo", methods=["GET"])
+def todo():
     """Only GET method allowed"""
-    return api.index()
+    return api.todo()
 
 
 @app.route("/create", methods=["POST"])

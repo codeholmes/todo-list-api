@@ -13,15 +13,30 @@ class TodoListAPI:
             # if the file is empty
             except pd.errors.EmptyDataError:
                 # create columns
-                self.df = pd.DataFrame(columns=["task_name", "completed", "created_at"])
+                self.df = pd.DataFrame(
+                    columns=["task_name", "completed", "created_at"])
         # create columns
         else:
-            self.df = pd.DataFrame(columns=["task_name", "completed", "created_at"])
+            self.df = pd.DataFrame(
+                columns=["task_name", "completed", "created_at"])
 
-    def index(self):
+    def todo(self):
         """This function will return all the tasks and it's
         associated attributes in a dict data type"""
-        return self.df.to_dict()
+        todo_dict_raw = self.df.to_dict()
+        # segregating each items
+        task_id = [[j for i, j in v.items()]
+                   for k, v in todo_dict_raw.items() if k == "id"][0]
+        task_name = [[j for i, j in v.items()]
+                     for k, v in todo_dict_raw.items() if k == "task_name"][0]
+        created_at = [[str(j) for i, j in v.items()]
+                      for k, v in todo_dict_raw.items() if k == "created_at"][0]
+        completed = [[str(j) for i, j in v.items()]
+                     for k, v in todo_dict_raw.items() if k == "completed"][0]
+        # making a dict structure
+        todo_dict = {task_id[i]: {"task_name": task_name[i], "completed": completed[i], "created_at": created_at[i]}
+                     for i in range(len(task_id))}
+        return todo_dict, 200
 
     def create(self):
         """This function creates a new task"""
@@ -40,9 +55,14 @@ class TodoListAPI:
             # append it to the df
             # self.df = self.df.append(task_df, ignore_index=True)
             self.df = pd.concat([self.df, task_df], ignore_index=True)
+
             self.reset_index()  # reset the index and give each row an id
             self.save_to_csv()  # write to csv file
-            return new_task, 200
+            return {
+                "task_name": new_task[0][0],
+                "completed": new_task[0][1],
+                "created_at": new_task[0][2],
+            }, 200
         else:
             # if the request body is empty
             return "No input provided!", 400
