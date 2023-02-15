@@ -6,3 +6,4 @@ pyvenv.cfg
 test_api.py
 tasks.csv
 __pycache__
+.vscode

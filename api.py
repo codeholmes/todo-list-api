@@ -5,29 +5,34 @@ app = Flask(__name__)
 api = TodoListAPI()
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["GET"])
 def index():
+    """Only GET method allowed"""
     return api.index()
 
 
 @app.route("/create", methods=["POST"])
 def create():
+    """Only POST method allowed"""
     return api.create()
 
 
-@app.route("/delete", methods=["DELETE"])
-def delete():
-    return api.delete()
+@app.route("/delete/<int:id>", methods=["DELETE"])
+def delete(id):
+    """Only DELETE method allowed"""
+    return api.delete(id)
 
 
-@app.route("/update_task", methods=["POST"])
-def update_task():
-    return api.update_task()
+@app.route("/update_task/<int:id>", methods=["PUT"])
+def update_task(id):
+    """Only PUT method allowed"""
+    return api.update_task(id)
 
 
-@app.route("/update_status", methods=["POST"])
-def update_status():
-    return api.update_status()
+@app.route("/update_status/<int:id>", methods=["PUT"])
+def update_status(id):
+    """Only PUT method allowed"""
+    return api.update_status(id)
 
 
 app.run(debug=True)
