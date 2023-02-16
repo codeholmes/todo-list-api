@@ -1,6 +1,8 @@
 # TodoList API
 
-Backend app for TODO list management
+Backend app for TODO list management.
+
+![Python Verson: 3.9.13](https://img.shields.io/badge/Python-3.9.13-green)
 
 ## Features
 
@@ -77,11 +79,3 @@ res.text
 
 Output
 `'{"1": {"task_name": "Write requirement file", "completed": "False", "created_at": "2023-02-16 12:06"}}'`
-
-## Docker
-
-[Todo]
-
-## Edge cases covered
-
-[Todo]
