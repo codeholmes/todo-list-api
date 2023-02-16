@@ -2,7 +2,6 @@ from flask import request
 import pandas as pd
 from datetime import datetime
 import os
-import json
 
 
 class TodoListAPI:
