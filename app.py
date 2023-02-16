@@ -2,6 +2,7 @@ from flask import request
 import pandas as pd
 from datetime import datetime
 import os
+import json
 
 
 class TodoListAPI:
@@ -56,7 +57,7 @@ class TodoListAPI:
             }
             for i in range(len(task_id))
         }
-        return todo_dict, 200
+        return json.dumps(todo_dict), 200
 
     def create(self):
         """This function creates a new task"""
@@ -84,7 +85,8 @@ class TodoListAPI:
                 "completed": new_task[0][1],
                 "created_at": new_task[0][2],
             }
-            return created_task, 200
+            created_task_json = json.dumps(created_task)
+            return created_task_json, 200
         else:
             # if the request body is empty
             return "No input provided!", 400
@@ -114,7 +116,7 @@ class TodoListAPI:
                     # assign the task_name with updated one
                     self.df.loc[index, "task_name"] = updated_task
                     self.save_to_csv()
-                    return self.df.iloc[index].to_dict(), 200
+                    return json.dumps(self.df.iloc[index].to_dict()), 200
             # return below if id not exist or invalid
             return f"ID ({id}) not found!".format(id=id), 400
         else:
@@ -133,7 +135,7 @@ class TodoListAPI:
                         str(new_status).capitalize().strip()
                     )
                     self.save_to_csv()
-                    return self.df.iloc[index].to_dict(), 200
+                    return json.dumps(self.df.iloc[index].to_dict()), 200
             # return below if id not exist or invalid
             return f"Invalid ID ({id})".format(id=id), 400
         # return below if data is some random text or empty
